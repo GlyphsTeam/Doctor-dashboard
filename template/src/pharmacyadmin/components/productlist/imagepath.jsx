@@ -1,1 +1,0 @@
-export {default as Productss} from "../../assets/img/product/product.jpg"

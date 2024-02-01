@@ -1,5 +1,5 @@
 import React from "react";
-import { doctor02, patient3 } from "../pages/aboutus/img";
+// import { doctor02, patient3 } from "../pages/aboutus/img";
 import { appimg, devicemessage, googleimg, smartphone } from "../imagepath";
 import Headerconsultation from "./headerconsultation";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
@@ -112,7 +112,7 @@ const Consultation = () => {
                     <div className="booking-doctor-left">
                       <div className="booking-doctor-img">
                         <Link to="/patient/doctor-profile">
-                          <img src={doctor02} alt="" />
+                          <img  alt="" />
                         </Link>
                       </div>
                       <div className="booking-doctor-info">
@@ -158,7 +158,7 @@ const Consultation = () => {
                     <div className="booking-doctor-left">
                       <div className="booking-doctor-img">
                         <Link to="#">
-                          <img src={patient3} alt="" />
+                          <img  alt="" />
                         </Link>
                       </div>
                       <div className="booking-doctor-info">

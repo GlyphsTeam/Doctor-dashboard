@@ -1,7 +1,7 @@
 import React from "react";
 import Headerconsultation from "./headerconsultation";
 import { Link } from "react-router-dom";
-import { doctor02 } from "../pages/aboutus/img";
+// import { doctor02 } from "../pages/aboutus/img";
 import { appimg, devicemessage, googleimg, smartphone } from "../imagepath";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Select from "react-select";
@@ -150,7 +150,7 @@ const Patientdetails = () => {
                     <div className="booking-doctor-left">
                       <div className="booking-doctor-img">
                         <Link to="/patient/doctor-profile">
-                          <img src={doctor02} alt="" />
+                          <img  alt="" />
                         </Link>
                       </div>
                       <div className="booking-doctor-info">
