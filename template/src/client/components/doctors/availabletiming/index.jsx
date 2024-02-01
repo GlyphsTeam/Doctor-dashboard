@@ -1,7 +1,7 @@
 import React from "react";
 // import { IMG01 } from "./img";
 import { Link } from "react-router-dom";
-import Header from "../../patients/dashboard/header";
+import Header from "../../header";
 import Footer from "../../footer";
 import DoctorSidebar from "../sidebar";
 

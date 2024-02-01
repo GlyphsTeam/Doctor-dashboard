@@ -19,8 +19,7 @@ import {
   logo_white,
 } from "./imagepath";
 
-import Chart from "./patients/dashboard/chart";
-import Notification from "./patients/dashboard/notification";
+
 import { IMG07 } from "../components/patients/doctorprofile/img";
 import { footer_logo } from "./home/image";
 
@@ -462,57 +461,7 @@ const Header = () => {
                   </li>
                 </ul>
               ) : null}
-              {(!pathnames.includes("/patient/search-doctor1") &&
-                pathnames.includes("patient")) ||
-              (pathnames.includes("Pharmacy") &&
-                !pathnames.includes("/Pharmacy/Pharmacy-index")) ? (
-                <>
-                  <ul className="nav header-navbar-rht">
-                    <Chart />
-                    <Notification />
-                    <li className="nav-item dropdown has-arrow logged-item">
-                      <Link
-                        to="#"
-                        className="dropdown-toggle nav-link"
-                        data-bs-toggle="dropdown"
-                      >
-                        <span className="user-img">
-                          <img
-                            className="rounded-circle"
-                            src={IMG07}
-                            width="31"
-                            alt="Darren Elder"
-                          />
-                        </span>
-                      </Link>
-                      <div className="dropdown-menu dropdown-menu-end">
-                        <div className="user-header">
-                          <div className="avatar avatar-sm">
-                            <img
-                              src={IMG07}
-                              alt="User Image"
-                              className="avatar-img rounded-circle"
-                            />
-                          </div>
-                          <div className="user-text">
-                            <h6>Richard Wilson</h6>
-                            <p className="text-muted mb-0">Patient</p>
-                          </div>
-                        </div>
-                        <Link className="dropdown-item" to="/patient/dashboard">
-                          Dashboard
-                        </Link>
-                        <Link className="dropdown-item" to="/patient/profile">
-                          Profile Settings
-                        </Link>
-                        <Link className="dropdown-item" to="/login">
-                          Logout
-                        </Link>
-                      </div>
-                    </li>
-                  </ul>
-                </>
-              ) : pathnames.includes("doctor") &&
+              { pathnames.includes("doctor") &&
                 !pathnames.includes("/doctor/doctor-register") &&
                 !pathnames.includes("/patient/search-doctor1") &&
                 !pathnames.includes("/pages/doctor-signup") &&

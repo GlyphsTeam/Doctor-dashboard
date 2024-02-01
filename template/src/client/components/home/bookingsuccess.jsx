@@ -1,6 +1,5 @@
 import React from "react";
 import Headerconsultation from "./headerconsultation";
-import { doctor02 } from "../pages/aboutus/img";
 import { Link } from "react-router-dom";
 
 const Bookingsuccess = () => {
@@ -32,7 +31,7 @@ const Bookingsuccess = () => {
                   <div className="booking-doctor-left booking-success-info">
                     <div className="booking-doctor-img">
                       <a href="#">
-                        <img src={doctor02} alt="" className="img-fluid" />
+                        <img  alt="" className="img-fluid" />
                       </a>
                     </div>
                     <div className="booking-doctor-info">

@@ -1,16 +1,18 @@
-import React from "react";
-import DoctorSidebar from "../sidebar";
+import React, { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../footer";
 import ProgressBar from "react-customizable-progressbar";
 import StickyBox from "react-sticky-box";
 import { Icon01, Icon02, Icon03 } from "./img";
-import Breadcrumbs from "../../breadcrumb";
-import Header from "../../header";
-import UpcomingTab from "./upcomimgtab";
-import AppointmentTab from "./appoitmenttab";
+
+const DoctorSidebar = lazy(() => import("../sidebar"));
+const Footer = lazy(() => import("../../footer"));
+const Breadcrumbs = lazy(() => import("../../breadcrumb"));
+const Header = lazy(() => import("../../header"));
+const UpcomingTab = lazy(() => import("./upcomimgtab"));
+const AppointmentTab = lazy(() => import("./appoitmenttab"));
 const DoctorDashboard = (props) => {
   return (
+    <Suspense fallback={<p>Loading...</p>}>
     <div>
       <Header {...props} />
       <Breadcrumbs />
@@ -197,6 +199,7 @@ const DoctorDashboard = (props) => {
       </div>
       <Footer {...props} />
     </div>
+    </Suspense>
   );
 };
 
