@@ -2,6 +2,7 @@
 /* eslint-disable no-constant-condition */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../assets/css/header.css"
 
 import logo from "../assets/images/logo.png";
 import logosvg from "../assets/images/logo.svg";
@@ -42,8 +43,11 @@ const Header = () => {
 
   const [navbar, setNavbar] = useState(false);
 
+  const [showNav, setShowNav] = useState(false)
 
-
+  const handlerShow = () => {
+    setShowNav(!showNav)
+  }
 
 
 
@@ -87,52 +91,50 @@ const Header = () => {
     <>
       {!pathnames.includes("home1") && (
         <header
-          className={`header ${
-            pathnames.includes("/index-11")
-              ? "header-fixed header-fourteen header-sixteen"
-              : "" || pathnames.includes("/index-10")
+          className={`header ${pathnames.includes("/index-11")
+            ? "header-fixed header-fourteen header-sixteen"
+            : "" || pathnames.includes("/index-10")
               ? "header-fixed header-fourteen header-fifteen"
               : "" || pathnames.includes("/index-9")
-              ? "header-fixed header-fourteen"
-              : "" || pathnames.includes("/index-8")
-              ? "header-fixed header-fourteen header-twelve header-thirteen"
-              : "" || pathnames.includes("/index-7")
-              ? "header-fixed header-fourteen header-twelve"
-              : "" || pathnames.includes("/index-6")
-              ? "header-trans header-eleven"
-              : "" || pathnames.includes("/index-4")
-              ? "header-trans custom"
-              : "" || pathnames.includes("/index-5")
-              ? "header header-fixed header-ten"
-              : "" || pathnames.includes("home")
-              ? "header-trans header-two"
-              : "" || pathnames.includes("/index-13")
-              ? "header header-custom header-fixed header-ten home-care-header"
-              : "" || pathnames.includes("/Pharmacy-index")
-              ? "header header-one"
-              : "header-fixed header-one"
-          } `}
+                ? "header-fixed header-fourteen"
+                : "" || pathnames.includes("/index-8")
+                  ? "header-fixed header-fourteen header-twelve header-thirteen"
+                  : "" || pathnames.includes("/index-7")
+                    ? "header-fixed header-fourteen header-twelve"
+                    : "" || pathnames.includes("/index-6")
+                      ? "header-trans header-eleven"
+                      : "" || pathnames.includes("/index-4")
+                        ? "header-trans custom"
+                        : "" || pathnames.includes("/index-5")
+                          ? "header header-fixed header-ten"
+                          : "" || pathnames.includes("home")
+                            ? "header-trans header-two"
+                            : "" || pathnames.includes("/index-13")
+                              ? "header header-custom header-fixed header-ten home-care-header"
+                              : "" || pathnames.includes("/Pharmacy-index")
+                                ? "header header-one"
+                                : "header-fixed header-one"
+            } `}
           style={
             pathnames.includes("/index-6") && navbar
               ? { background: "rgb(30, 93, 146)" }
               : { background: "" } && pathnames.includes("/index-10") && navbar
-              ? { background: "rgb(255, 255, 255)" }
-              : { background: "" } && pathnames.includes("/index-11") && navbar
-              ? { background: "rgb(255, 255, 255)" }
-              : { background: "" } && pathnames.includes("/index-4") && navbar
-              ? { background: "rgb(43, 108, 203)" }
-              : { background: "" } && pathnames.includes("/index-9") && navbar
-              ? { background: "rgb(43, 108, 203)" }
-              : { background: "" } && pathnames.includes("/index-2") && navbar
-              ? { background: "rgb(255, 255, 255)" }
-              : { background: "" }
+                ? { background: "rgb(255, 255, 255)" }
+                : { background: "" } && pathnames.includes("/index-11") && navbar
+                  ? { background: "rgb(255, 255, 255)" }
+                  : { background: "" } && pathnames.includes("/index-4") && navbar
+                    ? { background: "rgb(43, 108, 203)" }
+                    : { background: "" } && pathnames.includes("/index-9") && navbar
+                      ? { background: "rgb(43, 108, 203)" }
+                      : { background: "" } && pathnames.includes("/index-2") && navbar
+                        ? { background: "rgb(255, 255, 255)" }
+                        : { background: "" }
           }
         >
           <div className="container">
             <nav
-              className={`navbar navbar-expand-lg header-nav ${
-                pathnames.includes("home1") ? "nav-transparent" : ""
-              }`}
+              className={`navbar navbar-expand-lg header-nav ${pathnames.includes("home1") ? "nav-transparent" : ""
+                }`}
             >
               <div className="navbar-header">
                 <Link
@@ -150,8 +152,8 @@ const Header = () => {
                   {pathnames.includes("/index-5") ? (
                     <img src={logo_white} className="img-fluid" alt="Logo" />
                   ) : pathnames.includes(
-                      "/react/template/Pharmacy/Pharmacy-index"
-                    ) ? (
+                    "/react/template/Pharmacy/Pharmacy-index"
+                  ) ? (
                     <div className="browse-categorie">
                       <div className="dropdown categorie-dropdown">
                         <Link
@@ -181,21 +183,21 @@ const Header = () => {
                     <img
                       src={
                         pathnames === "/react/template/index-6" ||
-                        pathnames === "/react/template/index-4"
+                          pathnames === "/react/template/index-4"
                           ? footer_logo
                           : pathnames === "/index-8"
-                          ? logosvg
-                          : pathnames === "/react/template/index-11"
-                          ? logo_15
-                          : pathnames === "/react/template/index-10"
-                          ? logo_15
-                          : pathnames === "/react/template/index-9"
-                          ? logo_03
-                          : pathnames === "/react/template/index-7"
-                          ? logo_svg
-                          : pathnames == "/react/template/index-13"
-                          ? logo_white
-                          : logo
+                            ? logosvg
+                            : pathnames === "/react/template/index-11"
+                              ? logo_15
+                              : pathnames === "/react/template/index-10"
+                                ? logo_15
+                                : pathnames === "/react/template/index-9"
+                                  ? logo_03
+                                  : pathnames === "/react/template/index-7"
+                                    ? logo_svg
+                                    : pathnames == "/react/template/index-13"
+                                      ? logo_white
+                                      : logo
                       }
                       className="img-fluid"
                       alt="Logo"
@@ -219,23 +221,21 @@ const Header = () => {
                 </div>
 
                 <ul
-                  className={`main-nav ${
-                    pathnames.includes("home4") ? "white-font" : ""
-                  }`}
+                  className={`main-nav ${pathnames.includes("home4") ? "white-font" : ""
+                    }`}
                 >
                   <li
-                    className={`has-submenu megamenu  ${
-                      pathnames.includes("index")
-                        ? "active"
-                        : "" || pathnames.includes("home")
+                    className={`has-submenu megamenu  ${pathnames.includes("index")
+                      ? "active"
+                      : "" || pathnames.includes("home")
                         ? "active"
                         : ""
-                    }`}
+                      }`}
                   >
                   </li>
-    
+
                   {pathnames.includes("/index-5") ||
-                  pathnames.includes("/index-11") ? (
+                    pathnames.includes("/index-11") ? (
                     <li className="searchbar">
                       <Link to="#">
                         <i>
@@ -257,33 +257,32 @@ const Header = () => {
                   ) : null}
                   {(!pathnames.includes("/index-10") &&
                     pathnames.includes("index")) ||
-                  pathnames.includes("/login") ||
-                  pathnames.includes("/register") ||
-                  pathnames.includes("blog") ||
-                  pathnames.includes("/doctor/doctor-register") ||
-                  pathnames.includes("pages") ||
-                  pathnames.includes("/patient/search-doctor1") ||
-                  (pathnames.includes("/aboutus") &&
-                    !pathnames.includes("/index-6") &&
-                    !pathnames.includes("/index-13") &&
-                    !pathnames.includes("/index-5") &&
-                    !pathnames.includes("/index-6") &&
-                    !pathnames.includes("/index-7") &&
-                    !pathnames.includes("/index-8") &&
-                    !pathnames.includes("/index-9") &&
-                    !pathnames.includes("/index-10") &&
-                    !pathnames.includes("/index-11")) ? (
+                    pathnames.includes("/login") ||
+                    pathnames.includes("/register") ||
+                    pathnames.includes("blog") ||
+                    pathnames.includes("/doctor/doctor-register") ||
+                    pathnames.includes("pages") ||
+                    pathnames.includes("/patient/search-doctor1") ||
+                    (pathnames.includes("/aboutus") &&
+                      !pathnames.includes("/index-6") &&
+                      !pathnames.includes("/index-13") &&
+                      !pathnames.includes("/index-5") &&
+                      !pathnames.includes("/index-6") &&
+                      !pathnames.includes("/index-7") &&
+                      !pathnames.includes("/index-8") &&
+                      !pathnames.includes("/index-9") &&
+                      !pathnames.includes("/index-10") &&
+                      !pathnames.includes("/index-11")) ? (
                     <>
                       <li className="searchbar">
                         <Link to="#" onClick={() => setChange(!change)}>
                           <i> {/* <FeatherIcon icon="search" /> */}</i>
                         </Link>
                         <div
-                          className={`${
-                            change === true
-                              ? "togglesearch d-block"
-                              : "togglesearch d-none"
-                          }`}
+                          className={`${change === true
+                            ? "togglesearch d-block"
+                            : "togglesearch d-none"
+                            }`}
                         >
                           <form action={`${config}/patient/search-doctor1`}>
                             <div className="input-group">
@@ -329,7 +328,7 @@ const Header = () => {
                               </Link>
                             </li>
                           </>
-                      
+
                         )}
                     </>
                   ) : null}
@@ -339,9 +338,8 @@ const Header = () => {
                 <ul className="nav header-navbar-rht">
                   <li className="nav-item">
                     <Link
-                      className={`nav-link header-login ${
-                        pathnames.includes("home6") ? "white-bg" : ""
-                      }`}
+                      className={`nav-link header-login ${pathnames.includes("home6") ? "white-bg" : ""
+                        }`}
                       to="/login"
                     >
                       <i className="me-2">
@@ -364,19 +362,18 @@ const Header = () => {
                 </ul>
               ) : null}
               {pathnames.includes("/index-2") &&
-              !pathnames.includes("/index-11") &&
-              !pathnames.includes("/index-5") &&
-              !pathnames.includes("/index-6") &&
-              !pathnames.includes("/index-7") &&
-              !pathnames.includes("/index-8") &&
-              !pathnames.includes("/index-9") &&
-              !pathnames.includes("/index-4") ? (
+                !pathnames.includes("/index-11") &&
+                !pathnames.includes("/index-5") &&
+                !pathnames.includes("/index-6") &&
+                !pathnames.includes("/index-7") &&
+                !pathnames.includes("/index-8") &&
+                !pathnames.includes("/index-9") &&
+                !pathnames.includes("/index-4") ? (
                 <ul className="nav header-navbar-rht">
                   <li className="nav-item">
                     <Link
-                      className={`nav-link header-login ${
-                        pathnames.includes("home4") ? "white-bg" : ""
-                      }`}
+                      className={`nav-link header-login ${pathnames.includes("home4") ? "white-bg" : ""
+                        }`}
                       to="/login"
                     >
                       login / Signup
@@ -386,12 +383,12 @@ const Header = () => {
               ) : null}
 
               {pathnames.includes("/index-5") ||
-              pathnames.includes("/index-7") ||
-              pathnames.includes("/index-9") ? (
+                pathnames.includes("/index-7") ||
+                pathnames.includes("/index-9") ? (
                 <ul className="nav header-navbar-rht">
                   {pathnames.includes("/index-11") ||
-                  pathnames.includes("home7") ||
-                  pathnames.includes("home9") ? (
+                    pathnames.includes("home7") ||
+                    pathnames.includes("home9") ? (
                     <li className="searchbar searchbar-fourteen me-2">
                       <Link to="#">
                         <i>
@@ -412,11 +409,10 @@ const Header = () => {
                   ) : null}
 
                   <li
-                    className={`${
-                      pathnames.includes("/index-7") || "/index-9"
-                        ? "login-in-fourteen"
-                        : "register-btn"
-                    }`}
+                    className={`${pathnames.includes("/index-7") || "/index-9"
+                      ? "login-in-fourteen"
+                      : "register-btn"
+                      }`}
                   >
                     <Link
                       to="/pages/login-email"
@@ -424,8 +420,8 @@ const Header = () => {
                         pathnames === "/index-9"
                           ? "btn reg-btn"
                           : "btn log-btn" && pathnames === "/index-7"
-                          ? "btn reg-btn"
-                          : "btn log-btn"
+                            ? "btn reg-btn"
+                            : "btn log-btn"
                       }
                     >
                       <i className="me-2">
@@ -439,19 +435,17 @@ const Header = () => {
                     </Link>
                   </li>
                   <li
-                    className={`${
-                      pathnames.includes("/index-7") || "/index-9"
-                        ? "login-in-fourteen"
-                        : "register-btn"
-                    }`}
+                    className={`${pathnames.includes("/index-7") || "/index-9"
+                      ? "login-in-fourteen"
+                      : "register-btn"
+                      }`}
                   >
                     <Link
                       to="/signup"
-                      className={`${
-                        pathnames.includes("/index-7") || "/index-9"
-                          ? "btn btn-primary reg-btn reg-btn-fourteen"
-                          : "btn reg-btn"
-                      }`}
+                      className={`${pathnames.includes("/index-7") || "/index-9"
+                        ? "btn btn-primary reg-btn reg-btn-fourteen"
+                        : "btn reg-btn"
+                        }`}
                     >
                       <i className="me-2">
                         <FeatherIcon icon="user" />
@@ -461,7 +455,7 @@ const Header = () => {
                   </li>
                 </ul>
               ) : null}
-              { pathnames.includes("doctor") &&
+              {pathnames.includes("doctor") &&
                 !pathnames.includes("/doctor/doctor-register") &&
                 !pathnames.includes("/patient/search-doctor1") &&
                 !pathnames.includes("/pages/doctor-signup") &&
@@ -470,12 +464,14 @@ const Header = () => {
                 !pathnames.includes("/doctor-pending-blog") &&
                 !pathnames.includes("/blog/doctor-add-blog") ? (
                 <ul className="nav header-navbar-rht">
-               
+
                   <li className="nav-item dropdown has-arrow logged-item">
                     <Link
                       to="#"
                       className="dropdown-toggle nav-link"
                       data-bs-toggle="dropdown"
+                      onClick={() => handlerShow()}
+
                     >
                       <span className="user-img">
                         <img
@@ -486,7 +482,7 @@ const Header = () => {
                         />
                       </span>
                     </Link>
-                    <div className="dropdown-menu dropdown-menu-end">
+                    <div className={`dropdown-menu dropdown-menu-end ${showNav === true ? "show" : ""}`}>
                       <div className="user-header">
                         <div className="avatar avatar-sm">
                           <img

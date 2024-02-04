@@ -61,6 +61,7 @@ const Payment = lazy(() => import("./client/components/home/payment"));
 const Bookingsuccess = lazy(() => import("./client/components/home/bookingsuccess"));
 const Patientdetails = lazy(() => import("./client/components/home/patientdetails"));
 const Loginemail = lazy(() => import("./client/components/home/loginemail"));
+const PatientProfile = lazy(()=>import("./client/components/doctors/patientprofile"))
 
 const AppContainer = function (props) {
   // const config = "/react/template/";
@@ -260,11 +261,11 @@ const AppContainer = function (props) {
                 exact
                 component={Appointments}
               />
-              {/* <Route
+               <Route
                 path="/doctor/patient-profile"
                 exact
                 component={PatientProfile}
-              /> */}
+              /> 
               <Route
                 path="/add-prescription"
                 exact
