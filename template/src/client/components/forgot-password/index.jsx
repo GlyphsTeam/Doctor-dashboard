@@ -1,14 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../assets/images/login-banner.png";
 import { Link } from "react-router-dom";
 import Header from "../header";
 import Footer from "../footer";
+import { emailValidation } from '../../../helper/helper';
+import Alert from '../doctors/Alert/Alert';
 
 const ForgotPassword = (props) => {
-  // const history = useHistory();
-  const config = "/react/template";
+  const [count, setCount] = useState(0);
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
+  const showAlertMessage = (message, type) => {
+    setCount(1);
+    setType(type);
+    setMessage(message);
+    setShowAlert(true);
+  };
+  const handlerPassword = (e) => {
+    e.preventDefault();
+
+    const email = e.target.email.value;
+
+    if (emailValidation(email)) {
+      showAlertMessage("The Email is not valid", "warning");
+    }
+    if (email === "") {
+      showAlertMessage("The Email field is requried", "warning");
+    }
+
+    if (email !== "" && !emailValidation(email)) {
+      let formData = new FormData();
+
+      formData.append("email", email);
+
+      e.target.reset();
+
+    }
+  }
   useEffect(() => {
     document.body.classList.add("account-page");
 
@@ -42,10 +73,12 @@ const ForgotPassword = (props) => {
                         </p>
                       </div>
                       {/* Forgot Password Form */}
-                      <form action={`${config}/home`}>
+                      <form onSubmit={handlerPassword}>
                         <div className="form-group form-focus">
                           <input
                             type="email"
+                            id="email"
+                            name="email"
                             className="form-control floating"
                           />
                           <label className="focus-label">Email</label>
@@ -73,6 +106,14 @@ const ForgotPassword = (props) => {
         </div>
         {/* /Page Content */}
       </>
+      <Alert
+       count={count}
+       message={message}
+       setCount={setCount}
+       setShow={setShowAlert}
+       show={showAlert}
+       type={type}
+      />
 
       <Footer {...props} />
     </>

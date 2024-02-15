@@ -1,18 +1,135 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import loginBanner from "../../../assets/images/login-banner.png";
 import Logo from "../../../assets/images/logo.png";
 import camera from "../../../assets/images/icons/camera.svg";
 import male from "../../../assets/images/icons/male.png";
 import female from "../../../assets/images/icons/female.png";
-
-import { Link } from "react-router-dom";
-
+import Alert from "../Alert/Alert";
+import { Link, useHistory } from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setCardNumber,
+  setCertfcation,
+  setDate,
+  setDoctorID,
+  setGender,
+  setImage,
+  setName,
+  setNationality,
+  setPassword,
+  setPhone,
+  setSpecialities,
+  setUploadImg,
+} from '../../../../store/Register/register';
 const Registersteptwo = () => {
+  const dispatch = useDispatch();
+  const registerState = useSelector((state) => state.register);
+  const history = useHistory();
+
   useEffect(() => {
     document.body.classList.add("account-page");
 
+
     return () => document.body.classList.remove("account-page");
   }, []);
+
+  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [type, setType] = useState("");
+
+  const showAlertMessage = (message, type) => {
+    setCount(1);
+    setMessage(message);
+    setShowAlert(true);
+    setType(type);
+  };
+
+  const handlerRegister = (e) => {
+
+    e.preventDefault();
+
+
+
+    const genderValue = e.target.gender.value;
+    const dateValue = e.target.date.value;
+    const specialitiesValue = e.target.specialities.value;
+    const idnumber = e.target.idnumber.value;
+    const nationalityValue = e.target.nationality;
+    const cardNumberValue = e.target.cardnumber;
+
+    if (!specialitiesValue) {
+      showAlertMessage("The Specialities fuekd us required.", "warning");
+    }
+    if (!dateValue) {
+      showAlertMessage("The Age field is required.", "warning");
+    }
+
+    if (!idnumber) {
+      showAlertMessage("The ID number field is required.", "warning");
+    }
+    if (!nationalityValue) {
+      showAlertMessage("The Nationality feild is required.", "warning");
+    }
+    if (!cardNumberValue) {
+      showAlertMessage("The Card Number feild is required", "warning");
+    }
+    if (!genderValue) {
+      showAlertMessage("The Gender  field is required.", "warning");
+    }
+
+    if (genderValue !== ""
+      && dateValue !== ""
+      && specialitiesValue !== ""
+      && dateValue !== ""
+      && idnumber !== ""
+      && nationalityValue !== ""
+      && cardNumberValue !== ""
+    ) {
+      dispatch(setGender(genderValue));
+      dispatch(setDate(dateValue));
+      let formData = new FormData();
+
+      formData.append("name", registerState.name);
+      formData.append("password", registerState.password);
+      formData.append("phone", registerState.phone);
+      formData.append("img", registerState.img);
+      formData.append("gender", registerState.gender);
+      formData.append("address", registerState.address);
+      formData.append("certifcate", registerState.certifcate);
+      formData.append("uploadImg", registerState.uploadImg);
+      formData.append("date", registerState.date);
+      formData.append("cardNumber", registerState.cardNumber);
+      formData.append("nationality", registerState.nationality);
+      formData.append("doctorId", registerState.doctorId);
+      formData.append("specialities", registerState.specialities);
+
+      dispatch(setDoctorID(""));
+      dispatch(setCardNumber(""));
+      dispatch(setNationality(""));
+      dispatch(setSpecialities(""));
+      dispatch(setPassword(""));
+      dispatch(setPhone(""));
+      dispatch(setUploadImg(null));
+      dispatch(setGender(""));
+      dispatch(setImage(null));
+      dispatch(setName(""));
+      dispatch(setCertfcation(null));
+      history.push("/register-step- 3");
+    }
+  }
+  const handlerUpload = (e) => {
+    const image = e.target.files[0];
+    console.log(image)
+    if (image?.type !== 'image/jpeg' &&
+      image?.type !== 'image/png' &&
+      image?.type !== 'image/jpg') {
+      showAlertMessage("The Image must be jpeg or png or jpg", "warning");
+    }
+    else {
+      dispatch(setCertfcation(image))
+    }
+  }
   return (
     <>
       {/* Page Content */}
@@ -44,7 +161,7 @@ const Registersteptwo = () => {
                         </li>
                       </ul>
                     </div>
-                    <form id="personal_details" encType="multipart/form-data">
+                    <form id="personal_details" onSubmit={handlerRegister}>
                       <div className="text-start mt-2">
                         <h4 className="mt-3">Select Your Gender</h4>
                       </div>
@@ -81,23 +198,7 @@ const Registersteptwo = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="pregnant-col pt-4">
-                        <div>
-                          <div className="remember-me-col d-flex justify-content-between">
-                            <span className="mt-1">Are you Registered?</span>
-                            <label className="custom_check">
-                              <input
-                                type="checkbox"
-                                className=""
-                                id="is_registered"
-                                name="isregistered"
-                                defaultValue={1}
-                              />
-                              <span className="checkmark" />
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+
                       <div className="step-process-col mt-4">
                         <div
                           className="form-group"
@@ -130,23 +231,33 @@ const Registersteptwo = () => {
                           </select>
                         </div>
                         <div className="form-group">
-                          <label>Registered Clinic address</label>
+                          <label>Residence Card Number (Validation)</label>
                           <input
                             type="text"
-                            name="address"
+                            name="cardnumber"
                             className="form-control"
-                            id="address"
+                            id="cardnumber"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Address 2</label>
+                          <label>Nationality</label>
                           <input
                             type="text"
-                            name="address2"
+                            name="nationality"
                             className="form-control"
-                            id="address2"
+                            id="nationality"
                           />
                         </div>
+                        <div className="form-group">
+                          <label>Doctor ID Number</label>
+                          <input
+                            type="text"
+                            name="idnumber"
+                            className="form-control"
+                            id="idnumber"
+                          />
+                        </div>
+                        {/*                     
                         <div className="form-group">
                           <label>Pincode / Zipcoode</label>
                           <input
@@ -155,14 +266,14 @@ const Registersteptwo = () => {
                             className="form-control"
                             id="zipcode"
                           />
-                        </div>
+                        </div> */}
                         <div className="form-group">
                           <label>Certification and Employer</label>
                           <div className="row justify-content-center">
                             <div className="col-12 col-md-6 d-flex">
                               <div className="profile-pic-upload d-flex flex-wrap justify-content-center">
                                 <div className="cam-col">
-                                  <img src={camera} alt="" />
+                                  <img src={registerState.certifcate ? URL.createObjectURL(registerState.certifcate) : camera} alt="" />
                                 </div>
                                 <span className="text-center">
                                   Upload Rigth To sell Certigifcate
@@ -170,6 +281,7 @@ const Registersteptwo = () => {
                                 <input
                                   type="file"
                                   id="quali_certificate"
+                                  onChange={(e) => handlerUpload(e)}
                                   name="quali_certificate"
                                 />
                               </div>
@@ -207,90 +319,38 @@ const Registersteptwo = () => {
                           </div>
                         </div>
                         <div className="form-group">
-                          <label>Your Weight</label>
-                          <div className="row">
-                            <div className="col-7 pe-0">
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="weight"
-                                id="weight"
-                              />
-                            </div>
-                            <div className="col-5 ps-2">
-                              <select
-                                className="form-select form-control"
-                                id="weight_unit"
-                                name="weight_unit"
-                                tabIndex={-1}
-                                aria-hidden="true"
-                              >
-                                <option value="kg">Kg</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <label>Your Height</label>
-                          <div className="row">
-                            <div className="col-7 pe-0">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="height"
-                              />
-                            </div>
-                            <div className="col-5 ps-2">
-                              <select
-                                className="form-select form-control"
-                                id="height_unit"
-                                name="height_unit"
-                                tabIndex={-1}
-                                aria-hidden="true"
-                              >
-                                <option value="cm">cm</option>
-                                <option value="ft">ft</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <label>Your Age</label>
+                          <label>Your Date</label>
                           <input
-                            type="text"
-                            name="age"
+                            type="date"
+                            name="date"
                             className="form-control"
-                            id="age"
+                            id="date"
                           />
                         </div>
                         <div className="form-group">
-                          <label>Blood Type</label>
+                          <label>Specialities</label>
                           <select
                             className="form-select form-control"
-                            id="blood_group"
-                            name="blood_group"
+                            id="specialities"
+                            name="specialities"
                             tabIndex={-1}
                             aria-hidden="true"
                           >
                             <option value="">Select your blood group</option>
-                            <option value="A-">A-</option>
-                            <option value="A+">A+</option>
-                            <option value="B-">B-</option>
-                            <option value="B+">B+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="O-">O-</option>
-                            <option value="O+">O+</option>
+                            <option value="A-">Urology</option>
+                            <option value="A+">Neurology</option>
+                            <option value="B-">Orthopedic</option>
+                            <option value="B+">Cardiologist</option>
+                            <option value="AB-">Dentist</option>
                           </select>
                         </div>
                       </div>
                       <div className="mt-5">
-                        <Link
-                          to="/register-step- 3"
+                        <button
                           className="btn btn-primary w-100 btn-lg login-btn step2_submit"
                         >
                           continue{" "}
-                        </Link>
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -304,6 +364,14 @@ const Registersteptwo = () => {
           {/* /Register Content */}
         </div>
       </div>
+      <Alert
+        count={count}
+        message={message}
+        setCount={setCount}
+        setShow={setShowAlert}
+        show={showAlert}
+        type={type}
+      />
       {/* /Page Content */}
     </>
   );

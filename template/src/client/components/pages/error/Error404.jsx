@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import Header from "../../header";
 import Footer from "../../footer";
 import { error404 } from "../../imagepath";
+import { useSelector } from 'react-redux';
 
 const Error404 = (props) => {
+  const auth = useSelector((state) => state.register);
+
   return (
     <>
       <Header {...props} />
@@ -13,12 +16,10 @@ const Error404 = (props) => {
         <div className="container">
           <div className="row align-items-center inner-banner">
             <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Error 404</h2>
+              <h2 className="breadcrumb-title">Page not found 404</h2>
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/index-2">Home</Link>
-                  </li>
+
                   <li className="breadcrumb-item" aria-current="page">
                     Error 404
                   </li>
@@ -40,9 +41,14 @@ const Error404 = (props) => {
                   <div className="error-content error-404-content">
                     <h2>Oops! That Page Can’t Be Found.</h2>
                     <p>The page you are looking for was never existed.</p>
-                    <Link to="/index" className="btn btn-primary prime-btn">
-                      Back to Home
-                    </Link>
+                    {auth.isAuth ?
+                      <Link to="/doctor/doctor-dashboard" className="btn btn-primary prime-btn">
+                        Back to dashboard
+                      </Link>
+                      : <Link to="/login" className="btn btn-primary prime-btn">
+                        Back to Login
+                      </Link>
+                    }
                   </div>
                 </div>
               </div>

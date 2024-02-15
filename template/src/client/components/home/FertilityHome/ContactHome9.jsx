@@ -1,6 +1,6 @@
 import React from "react";
 import { contact_fourteen, contact_icon1, contact_icon2, contact_icon3 } from "../../imagepath";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 
 function ContactHome9() {
     return (

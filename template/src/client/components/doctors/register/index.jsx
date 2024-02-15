@@ -1,19 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../../assets/images/login-banner.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import Header from "../../header";
 import Footer from "../../footer";
-
+import Alert from '../Alert/Alert';
+import {
+  setName,
+  setPassword,
+  setPhone
+} from '../../../../store/Register/register';
 const DoctorRegister = (props) => {
-  const config = "/react/template";
+  const name = useRef(null);
+  const phoneNumber = useRef(null);
+  const password = useRef(null);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [showAlert, setShowAlert] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
+  const [count, setCount] = useState(0);
+
+
+
   // const history = useHistory();
   useEffect(() => {
     document.getElementsByTagName("body")[0].className = "account-page";
 
     return () => (document.getElementsByTagName("body")[0].className = "");
   });
+  const alertShowMessage = (message, type) => {
+    setMessage(message);
+    setType(type);
+    setShowAlert(true);
+    setCount(1);
+  };
 
+  const handlerRegister = (e) => {
+    e.preventDefault();
+
+    const nameValue = name.current.value;
+    const phoneValue = phoneNumber.current.value;
+    const passwordValue = password.current.value;
+
+    if (!passwordValue) {
+      alertShowMessage("The password field is required", "warning");
+    }
+    if (!phoneValue) {
+      alertShowMessage("The phone field is required", "warning");
+    }
+
+    if (!nameValue) {
+      alertShowMessage("The name field is required", "warning");
+    }
+    if (nameValue !== "" && phoneValue !== "" && passwordValue !== "") {
+
+      dispatch(setName(nameValue));
+      dispatch(setPassword(passwordValue));
+      dispatch(setPhone(phoneValue));
+      history.push("/registerstepone")
+    }
+
+
+  }
   return (
     <>
       <Header {...props} />
@@ -38,17 +88,18 @@ const DoctorRegister = (props) => {
                       </h3>
                     </div>
 
-                    <form action={`${config}/registerstepone`}>
+                    <form onSubmit={handlerRegister}>
                       <div className="form-group form-focus">
-                        <input type="text" className="form-control floating" />
+                        <input type="text" className="form-control floating" ref={name} />
                         <label className="focus-label">Name</label>
                       </div>
                       <div className="form-group form-focus">
-                        <input type="text" className="form-control floating" />
+                        <input type="text" className="form-control floating" ref={phoneNumber} />
                         <label className="focus-label">Mobile Number</label>
                       </div>
                       <div className="form-group form-focus">
                         <input
+                          ref={password}
                           type="password"
                           className="form-control floating"
                         />
@@ -61,27 +112,9 @@ const DoctorRegister = (props) => {
                       </div>
                       <button
                         className="btn btn-primary w-100 btn-lg login-btn"
-                        type="submit"
-                        // onClick={() => history.push("/pages/onboarding-email")}
                       >
                         Signup
                       </button>
-                      <div className="login-or">
-                        <span className="or-line"></span>
-                        <span className="span-or">or</span>
-                      </div>
-                      <div className="row form-row social-login">
-                        <div className="col-6">
-                          <Link to="#0" className="btn btn-facebook w-100">
-                            <i className="fab fa-facebook-f me-1"></i> Login
-                          </Link>
-                        </div>
-                        <div className="col-6">
-                          <Link to="#0" className="btn btn-google w-100">
-                            <i className="fab fa-google me-1"></i> Login
-                          </Link>
-                        </div>
-                      </div>
                     </form>
                   </div>
                 </div>
@@ -90,6 +123,14 @@ const DoctorRegister = (props) => {
           </div>
         </div>
       </div>
+      <Alert
+        count={count}
+        message={message}
+        setCount={setCount}
+        setShow={setShowAlert}
+        show={showAlert}
+        type={type}
+      />
       <Footer {...props} />
     </>
   );

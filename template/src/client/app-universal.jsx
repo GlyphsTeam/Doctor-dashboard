@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
 

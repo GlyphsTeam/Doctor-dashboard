@@ -6,7 +6,7 @@ import {
   serv_img_icon_1,
   serv_img_icon_2,
 } from "../../imagepath";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 // import OwlCarousel from "react-owl-carousel";
 // import "owl.carousel/dist/assets/owl.carousel.css";
 // import "owl.carousel/dist/assets/owl.theme.default.css";

@@ -1,16 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import loginBanner from '../../../assets/images/login-banner.png';
 import Logo from "../../../assets/images/logo.png";
 import camera from "../../../assets/images/icons/camera.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import Alert from '../Alert/Alert';
+import { useDispatch, useSelector } from 'react-redux';
+import { setImage } from '../../../../store/Register/register';
 
 const Registerstepone = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const imageUrl = useSelector((state) => state.register);
+  const [count, setCount] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     document.body.classList.add("account-page");
 
     return () => document.body.classList.remove("account-page");
   }, []);
 
+  const handlerRegister = (e) => {
+    e.preventDefault();
+
+    let image = e.target.files[0];
+
+    if (!image.type.startsWith('image/')) {
+      setCount(1);
+      setShowAlert(true);
+      setType("warning");
+      setMessage("The image field is requried");
+    }
+    else {
+      dispatch(setImage(image));
+    }
+  }
+  const hanlderNextRegister = () => {
+    if (!imageUrl.img.type.startsWith('image/')) {
+      setCount(1);
+      setShowAlert(true);
+      setType("warning");
+      setMessage("The image field is requried");
+    }
+
+    else {
+      history.push("/register-step-2")
+    }
+  }
   return (
     <>
       {/* Page Content */}
@@ -23,7 +61,7 @@ const Registerstepone = () => {
                 <div className="inner-right-login">
                   <div className="login-header">
                     <div className="logo-icon">
-                      <img src={Logo} alt="" />
+                      <img src={imageUrl.img ? URL.createObjectURL(imageUrl.img) : Logo} alt="" />
                     </div>
                     <div className="step-list">
                       <ul>
@@ -40,7 +78,7 @@ const Registerstepone = () => {
                         </li>
                       </ul>
                     </div>
-                    <form id="profile_pic_form" encType="multipart/form-data">
+                    <form id="profile_pic_form" >
                       <div className="profile-pic-col">
                         <h3>Profile Picture</h3>
                         <div className="profile-pic-upload">
@@ -57,17 +95,18 @@ const Registerstepone = () => {
                             type="file"
                             id="profile_image"
                             name="profile_image"
+                            onChange={handlerRegister}
                           />
                         </div>
                       </div>
 
                       <div className="mt-5">
-                        <Link
-                          to="/register-step-2"
+                        <button
+                          onClick={() => hanlderNextRegister()}
                           className="btn btn-primary w-100 btn-lg login-btn step1_submit"
                         >
                           continue{" "}
-                        </Link>
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -81,6 +120,14 @@ const Registerstepone = () => {
           {/* /Register Content */}
         </div>
       </div>
+      <Alert
+        count={count}
+        message={message}
+        setCount={setCount}
+        setShow={setShowAlert}
+        show={showAlert}
+        type={type}
+      />
       {/* /Page Content */}
     </>
   );

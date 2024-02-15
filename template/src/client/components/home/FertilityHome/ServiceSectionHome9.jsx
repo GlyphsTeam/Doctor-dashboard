@@ -9,7 +9,7 @@ import {
   service_six_4,
   services_six_1,
 } from "../../imagepath";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 
 function ServiceSectionHome9() {
   return (

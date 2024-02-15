@@ -1,13 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../assets/images/login-banner.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory} from "react-router-dom";
 import Header from "../header";
 import Footer from "../footer";
 // const config = "/react/template/";
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../../store/Auth/auth';
+import Alert from "../doctors/Alert/Alert";
+import { emailValidation } from '../../../helper/helper';
+
 
 const LoginContainer = (props) => {
   // const history = useHistory();
+  const [count, setCount] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const showAlertMessage = (type, message) => {
+    setCount(1);
+    setMessage(message);
+    setType(type);
+    setShowAlert(true);
+  };
 
   useEffect(() => {
     document.body.classList.add("account-page");
@@ -15,6 +33,30 @@ const LoginContainer = (props) => {
     return () => document.body.classList.remove("account-page");
   }, []);
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+
+  const handlerLogin = (e) => {
+    e.preventDefault();
+
+    const emailValue = emailRef.current.value;
+    const passwordValue = passwordRef.current.value;
+
+    if (passwordValue === "") {
+      showAlertMessage("warning", "The password field is required!");
+    }
+    if (emailValidation(emailValue)) {
+      showAlertMessage("warning", "The Email is not valid");
+    }
+    if (emailValue === "") {
+      showAlertMessage("warning", "The Email field is requried");
+    }
+    if (emailValue && !emailValidation(emailValue) && passwordValue) {
+         dispatch(setAuth(true));
+         history.push("/doctor/doctor-dashboard");
+    }
+  }
   return (
     <>
       <Header {...props} />
@@ -41,10 +83,11 @@ const LoginContainer = (props) => {
                           Login <span>Doccure</span>
                         </h3>
                       </div>
-                      <form>
+                      <form onSubmit={handlerLogin}>
                         <div className="form-group form-focus">
                           <input
                             type="email"
+                            ref={emailRef}
                             className="form-control floating"
                           />
                           <label className="focus-label">Email</label>
@@ -52,6 +95,7 @@ const LoginContainer = (props) => {
                         <div className="form-group form-focus">
                           <input
                             type="password"
+                            ref={passwordRef}
                             className="form-control floating"
                           />
                           <label className="focus-label">Password</label>
@@ -64,13 +108,13 @@ const LoginContainer = (props) => {
                             Forgot Password ?
                           </Link>
                         </div>
-                        
-                        <Link to="/index"
+
+                        <button 
                           className="btn btn-primary w-100 btn-lg login-btn"
                           type="submit"
                         >
                           Login
-                        </Link>
+                        </button>
                         <div className="login-or">
                           <span className="or-line" />
                           <span className="span-or">or</span>
@@ -89,7 +133,7 @@ const LoginContainer = (props) => {
                         </div>
                         <div className="text-center dont-have">
                           Don’t have an account?{" "}
-                          <Link to="/register">Register</Link>
+                          <Link to="/doctor/doctor-register">Register</Link>
                         </div>
                       </form>
                     </div>
@@ -104,6 +148,14 @@ const LoginContainer = (props) => {
       </>
 
       <Footer {...props} />
+      <Alert
+       count={count}
+       message={message}
+       setCount={setCount}
+       setShow={setShowAlert}
+       show={showAlert}
+       type={type}
+      />
     </>
   );
 };

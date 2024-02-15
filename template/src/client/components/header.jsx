@@ -309,7 +309,7 @@ const Header = () => {
                         !pathnames.includes("/index-11") && (
                           <>
                             <li className="register-btn">
-                              <Link to="/register" className="btn reg-btn">
+                              <Link to="/doctor/doctor-register" className="btn reg-btn">
                                 <i>
                                   <FeatherIcon icon="user" />
                                 </i>
