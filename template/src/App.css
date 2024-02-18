@@ -1,0 +1,28 @@
+:root {
+    /* main color in arab georgia website  */
+    --primary-color: #09e5ab;
+    --primary2-color:#09dca4;
+    --secondary-color : #008cde;
+    --secondary2-color:#0E82FD;
+    --secondary3-color:#0de0fe;
+    --secondary4-color:#20c0f3;
+    --tertiary-color: #272b41;
+    --box-color : #f0f0f0;
+    --reg-color:#1F2937;
+    --highlight-color: #806d6b;
+    --black : black;
+    --zero-black:#000000;
+    --white: #ffffff;
+    --danger-color: #ff0100;
+    --danger-hover-color:#e63333;
+    --success-color : #00e65b;
+    --success2-color : #00cc52;
+    --white-blue: #153866;
+    --light-beige : #757575;
+    --light2-beige:#0CE0FF;
+    --light3-beige:#1146a1;
+    --light4-beige:#f6f2f2;
+    --light5-beige:#f6f2f2;
+    --nav-color: white;
+    --grey : #D9D9D9 ;
+    }

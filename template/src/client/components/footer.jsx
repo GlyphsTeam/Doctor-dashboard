@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 import logo from "../assets/images/logo.png";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 
-const Footer = (props) => {
+const Footer = () => {
   //Aos
 
   useEffect(() => {
@@ -16,27 +16,12 @@ const Footer = (props) => {
     });
   }, []);
 
-  const exclusionArray = [
-    "/pages/doctor-grid",
-    "/pages/doctor-list",
-    "/pages/video-call",
-    "/pages/voice-call",
-    "/pages/chat-doctor",
-    "/patient/doctor-list",
-    "/patient/doctor-grid",
-  ];
-  if (exclusionArray.indexOf(props.location.pathname) >= 0) {
-    return "";
-  }
+  
+ 
 
   return (
     <>
-      {!props.location.pathname.includes("/index-6") &&
-        !props.location.pathname.includes("/index-7") &&
-        !props.location.pathname.includes("/index-8") &&
-        !props.location.pathname.includes("/index-6") &&
-        !props.location.pathname.includes("/index-7") &&
-        !props.location.pathname.includes("/index-8") && (
+   
           <footer className="footer footer-one">
             <div className="footer-top">
               <div className="container">
@@ -214,7 +199,7 @@ const Footer = (props) => {
               </div>
             </div>
           </footer>
-        )}
+        
     </>
   );
 };

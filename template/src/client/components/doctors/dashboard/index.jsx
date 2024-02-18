@@ -10,6 +10,7 @@ const Breadcrumbs = lazy(() => import("../../breadcrumb"));
 const Header = lazy(() => import("../../header"));
 const UpcomingTab = lazy(() => import("./upcomimgtab"));
 const AppointmentTab = lazy(() => import("./appoitmenttab"));
+
 const DoctorDashboard = (props) => {
   return (
     <Suspense fallback={<p>Loading...</p>}>

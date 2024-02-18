@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import "./App.css"
 import AppRouter from "./approuter";
 // import * as serviceWorker from './client/serviceWorker';
 
@@ -37,7 +37,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
   require("./client/assets/css/fontawesome.min.css");
   require("./client/assets/css/custom.css")
   require("../src/client/components/customstyleclient.css");
-
 // ReactDOM.render(<AppRouter/>, document.getElementById('root'));
 
 // if (module.hot) { // enables hot module replacement if plugin is installed
