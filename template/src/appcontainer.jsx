@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, lazy, Suspense } from "react";
 import config from "config";
-import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes , Navigate  } from "react-router-dom";
 import { useSelector } from 'react-redux';
 const LoginContainer = lazy(() => import("./client/components/login/login.jsx"));
 const Register = lazy(() => import("./client/components/register/register.jsx"));
@@ -138,8 +138,9 @@ const AppContainer = function (props) {
 
     return (
       <Suspense fallback={<p>Loading...</p>}>
-        <Router basename={`${config.publicPath}`}>
+        <Router basename={`/react/template`}>
           <div>
+            <Routes>
             <Route path="/login" exact component={LoginContainer} />
             <Route
               path="/doctor/doctor-register"
@@ -174,7 +175,6 @@ const AppContainer = function (props) {
             />
             {/* <Route path="/error404" exact component={Error404} /> */}
 
-            <Switch>
 
 
               <Route component={Error404} exact path="/ss" />
@@ -261,7 +261,7 @@ const AppContainer = function (props) {
                     Auth.isAuth ? (
                       <DoctorDashboard />
                     ) : (
-                      <Redirect to="/login" />
+                      <Navigate  to="/login" />
                     )
                   }
                 />
@@ -293,7 +293,7 @@ const AppContainer = function (props) {
                     Auth.isAuth ? (
                       <Appointments />
                     ) : (
-                      <Redirect to="/login" />
+                      <Navigate  to="/login" />
                     )
                   }                />
                 <Route
@@ -324,8 +324,7 @@ const AppContainer = function (props) {
                 <Route path="/loginemail" exact component={Loginemail} />
                 {/* <Route path="/index-13" exact component={HomecareHome} /> */}
               </>
-
-            </Switch>
+              </Routes>
 
           </div>
 

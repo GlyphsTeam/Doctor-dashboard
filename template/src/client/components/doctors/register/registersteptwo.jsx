@@ -5,7 +5,7 @@ import camera from "../../../assets/images/icons/camera.svg";
 import male from "../../../assets/images/icons/male.png";
 import female from "../../../assets/images/icons/female.png";
 import Alert from "../Alert/Alert";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {
   setCardNumber,
@@ -24,7 +24,7 @@ import {
 const Registersteptwo = () => {
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     document.body.classList.add("account-page");
@@ -115,7 +115,7 @@ const Registersteptwo = () => {
       dispatch(setImage(null));
       dispatch(setName(""));
       dispatch(setCertfcation(null));
-      history.push("/register-step- 3");
+      // history.push("/register-step- 3");
     }
   }
   const handlerUpload = (e) => {

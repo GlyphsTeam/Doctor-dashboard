@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 // import loginBanner from '../../../assets/images/login-banner.png';
 import Logo from "../../../assets/images/logo.png";
 import camera from "../../../assets/images/icons/camera.svg";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Alert from '../Alert/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImage } from '../../../../store/Register/register';
 
 const Registerstepone = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const imageUrl = useSelector((state) => state.register);
   const [count, setCount] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
@@ -46,7 +46,7 @@ const Registerstepone = () => {
     }
 
     else {
-      history.push("/register-step-2")
+      // history.push("/register-step-2")
     }
   }
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../assets/images/login-banner.png";
-import { Link, useHistory} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../header";
 import Footer from "../footer";
 // const config = "/react/template/";
@@ -13,12 +13,14 @@ import { emailValidation } from '../../../helper/helper';
 
 const LoginContainer = (props) => {
   // const history = useHistory();
+  const navigate = useNavigate();
+
   const [count, setCount] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [type, setType] = useState("");
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
   const showAlertMessage = (type, message) => {
     setCount(1);
@@ -54,7 +56,8 @@ const LoginContainer = (props) => {
     }
     if (emailValue && !emailValidation(emailValue) && passwordValue) {
          dispatch(setAuth(true));
-         history.push("/doctor/doctor-dashboard");
+         navigate("/doctor/doctor-dashboard")
+        //  history.push("/doctor/doctor-dashboard");
     }
   }
   return (

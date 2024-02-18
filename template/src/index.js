@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./App.css"
-import AppRouter from "./approuter";
+import App from './App'
+// import AppRouter from "./approuter";
 // import * as serviceWorker from './client/serviceWorker';
 
 import "./client/assets/css/bootstrap.min.css";
@@ -46,6 +47,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-    <AppRouter />
+    <App />
   </>
 );

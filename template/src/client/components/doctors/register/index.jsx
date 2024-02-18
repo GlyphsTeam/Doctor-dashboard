@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../../assets/images/login-banner.png";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import Header from "../../header";
 import Footer from "../../footer";
@@ -16,7 +16,7 @@ const DoctorRegister = (props) => {
   const phoneNumber = useRef(null);
   const password = useRef(null);
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
@@ -59,7 +59,7 @@ const DoctorRegister = (props) => {
       dispatch(setName(nameValue));
       dispatch(setPassword(passwordValue));
       dispatch(setPhone(phoneValue));
-      history.push("/registerstepone")
+      // history.push("/registerstepone")
     }
 
 
