@@ -22,7 +22,7 @@ module.exports = {
     port: 3002,
     historyApiFallback: true,
     onAfterSetupMiddleware() {
-      opn(`http://localhost:${this.port}/login`);
+      opn(`http://localhost:${this.port}/react/template/login`);
     },
   },
   // devServer: {

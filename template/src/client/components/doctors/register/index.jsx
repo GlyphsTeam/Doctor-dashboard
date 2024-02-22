@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-// import { useHistory } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import loginBanner from "../../../assets/images/login-banner.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ const DoctorRegister = (props) => {
   const phoneNumber = useRef(null);
   const password = useRef(null);
   const dispatch = useDispatch();
-  // const history = useHistory();
+  const naviagtion = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
@@ -24,7 +24,7 @@ const DoctorRegister = (props) => {
 
 
 
-  // const history = useHistory();
+  
   useEffect(() => {
     document.getElementsByTagName("body")[0].className = "account-page";
 
@@ -59,7 +59,8 @@ const DoctorRegister = (props) => {
       dispatch(setName(nameValue));
       dispatch(setPassword(passwordValue));
       dispatch(setPhone(phoneValue));
-      // history.push("/registerstepone")
+      naviagtion("/registerstepone");
+      
     }
 
 

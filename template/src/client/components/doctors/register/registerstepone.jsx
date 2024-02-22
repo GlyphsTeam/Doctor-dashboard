@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 import Alert from '../Alert/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImage } from '../../../../store/Register/register';
+import { useNavigate } from "react-router-dom";
 
 const Registerstepone = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
   const imageUrl = useSelector((state) => state.register);
+  const navigation = useNavigate();
   const [count, setCount] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [type, setType] = useState("");
@@ -46,7 +47,7 @@ const Registerstepone = () => {
     }
 
     else {
-      // history.push("/register-step-2")
+      navigation("/register-step-2");
     }
   }
   return (

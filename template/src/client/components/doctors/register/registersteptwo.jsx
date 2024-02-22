@@ -6,25 +6,25 @@ import male from "../../../assets/images/icons/male.png";
 import female from "../../../assets/images/icons/female.png";
 import Alert from "../Alert/Alert";
 import { Link } from "react-router-dom";
-import {useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setCardNumber,
   setCertfcation,
   setDate,
   setDoctorID,
   setGender,
-  setImage,
-  setName,
   setNationality,
-  setPassword,
-  setPhone,
-  setSpecialities,
-  setUploadImg,
+  setSpecialities
+
+
 } from '../../../../store/Register/register';
 const Registersteptwo = () => {
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
-  // const history = useHistory();
+  const navigation = useNavigate();
+
 
   useEffect(() => {
     document.body.classList.add("account-page");
@@ -87,35 +87,14 @@ const Registersteptwo = () => {
       && cardNumberValue !== ""
     ) {
       dispatch(setGender(genderValue));
-      dispatch(setDate(dateValue));
-      let formData = new FormData();
+      dispatch(setDate(dateValue)); 
+      dispatch(setNationality(nationalityValue));
+      dispatch(setSpecialities(specialitiesValue));
+      dispatch(setCardNumber(cardNumberValue));
+      dispatch(setDoctorID(idnumber));
 
-      formData.append("name", registerState.name);
-      formData.append("password", registerState.password);
-      formData.append("phone", registerState.phone);
-      formData.append("img", registerState.img);
-      formData.append("gender", registerState.gender);
-      formData.append("address", registerState.address);
-      formData.append("certifcate", registerState.certifcate);
-      formData.append("uploadImg", registerState.uploadImg);
-      formData.append("date", registerState.date);
-      formData.append("cardNumber", registerState.cardNumber);
-      formData.append("nationality", registerState.nationality);
-      formData.append("doctorId", registerState.doctorId);
-      formData.append("specialities", registerState.specialities);
 
-      dispatch(setDoctorID(""));
-      dispatch(setCardNumber(""));
-      dispatch(setNationality(""));
-      dispatch(setSpecialities(""));
-      dispatch(setPassword(""));
-      dispatch(setPhone(""));
-      dispatch(setUploadImg(null));
-      dispatch(setGender(""));
-      dispatch(setImage(null));
-      dispatch(setName(""));
-      dispatch(setCertfcation(null));
-      // history.push("/register-step- 3");
+      navigation("/register-step- 3");
     }
   }
   const handlerUpload = (e) => {

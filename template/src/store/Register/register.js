@@ -16,7 +16,7 @@ const initialState = {
     cardNumber: "",
     nationality: "",
     doctorId: "",
-    specialities: ""
+    specialities: "",
 
 };
 
@@ -63,6 +63,12 @@ const registerSlice = createSlice({
         },
         setSpecialities: (state, actions) => {
             state.specialities = actions.payload
+        },
+        setState: (state, actions) => {
+            state.state = actions.payload;
+        },
+        setCity: (state, actions) => {
+            state.city = actions.payload
         }
 
     }
@@ -76,6 +82,8 @@ export const {
     setAddrees,
     setGender,
     setImage,
+    setState,
+    setCity,
     setPhone,
     setName,
     setPassword,
