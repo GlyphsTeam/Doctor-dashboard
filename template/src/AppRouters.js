@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, lazy, Suspense } from "react";
 import config from "config";
+import { useDispatch, useSelector } from 'react-redux'
+
 import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { setAuth } from "./store/Auth/auth.js";
 const LoginContainer = lazy(() => import("./client/components/login/login.jsx"));
 const Register = lazy(() => import("./client/components/register/register.jsx"));
 const ForgotPassword = lazy(() => import("./client/components/forgot-password/index.jsx"));
@@ -62,10 +64,22 @@ const Bookingsuccess = lazy(() => import("./client/components/home/bookingsucces
 const Patientdetails = lazy(() => import("./client/components/home/patientdetails.jsx"));
 const Loginemail = lazy(() => import("./client/components/home/loginemail.jsx"));
 const PatientProfile = lazy(() => import("./client/components/doctors/patientprofile/index.jsx"))
+const AddBlog = lazy(() => import("./client/components/doctors/Blogs/Add-blogs.jsx"));
+const EditBlog = lazy(() => import("./client/components/doctors/Blogs/Edit-blogs.jsx"));
+const Blogs = lazy(() => import("./client/components/doctors/Blogs/Blogs.jsx"));
 
 const AppContainer = function () {
-  const Auth = useSelector((state) => state.auth);
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  let backendUrl = "https://arab-texas.com/api";
+
   // const config = "/react/template/";
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      dispatch(setAuth(true))
+    }
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (event) => {
@@ -139,7 +153,42 @@ const AppContainer = function () {
       <Router basename={`${config.publicPath}`}>
         <div>
           <Routes>
-            <Route path="/login" exact element={<LoginContainer />} />
+            <Route path="/login" exact element={!authState.isAuth ? (
+              <LoginContainer backendUrl={backendUrl} />
+            ) : (
+              <DoctorDashboard />
+            )} />
+            <Route
+              path="/doctor/blogs"
+              exact
+              element={authState?.isAuth ? (
+                <Blogs backendUrl={backendUrl} />
+              ) :
+                (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/doctor/add-blog"
+              exact
+              element={authState?.isAuth ? (
+                <AddBlog backendUrl={backendUrl} />
+              ) : (
+                <Navigate to="/login" />
+              )}
+
+            />
+                <Route
+              path="/doctor/edit-blog/:id"
+              exact
+              element={authState?.isAuth ? (
+                <EditBlog backendUrl={backendUrl} />
+              ) : (
+                <Navigate to="/login" />
+              )}
+
+            />
             <Route
               path="/doctor/doctor-register"
               exact
@@ -154,7 +203,7 @@ const AppContainer = function () {
             <Route
               path="/register-step-2"
               exact
-              element={<Registersteptwo />}
+              element={<Registersteptwo backendUrl={backendUrl} />}
             />
             <Route
               path="/register-step- 3"
@@ -164,7 +213,13 @@ const AppContainer = function () {
             <Route
               path="/pages/forgot-password"
               exact
-              element={<ForgotPassword />}
+              element={authState?.isAuth ? (
+                <ForgotPassword />
+              ) :
+                (
+                  <Navigate to="/login" />
+                )
+              }
             />
             <Route
               path="/pages/forgot-password2"
@@ -199,28 +254,51 @@ const AppContainer = function () {
               <Route path="/index" exact element={<Generalhome />} />
 
 
-              <Route path="/doctor-blog" exact element={<Doctorblog />} />
+              <Route path="/doctor-blog" exact element={authState?.isAuth ? (
+                <Doctorblog />
+              ) :
+                (
+                  <Navigate to="/login" />
+                )} />
               <Route
                 path="/blog/doctor-add-blog"
                 exact
-                element={<Doctoraddblog />}
+                element={authState?.isAuth ? (
+                  <Doctoraddblog />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
               <Route
                 path="/blog/doctor-pending-blog"
                 exact
-                element={<Doctorpendingblog />}
+                element={authState?.isAuth ?
+                  (
+                    <Doctorpendingblog />
+                  ) :
+                  (
+                    <Navigate to="/login" />
+                  )}
               />
               <Route
                 path="/blog/doctor-edit-blog"
                 exact
-                element={<Doctoreditblog />}
+                element={authState?.isAuth ? (
+                  <Doctoreditblog />
+                ) : (
+                  <Navigate to="/login" />
+                )}
 
               />
 
               <Route
                 path="/patient/search-doctor1"
                 exact
-                element={<SearchDoctor />}
+                element={authState?.isAuth ? (
+                  <SearchDoctor />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
               <Route
                 path="/patient/search-doctor2"
@@ -243,11 +321,21 @@ const AppContainer = function () {
               <Route
                 path="/patient/patient-chat"
                 exact
-                element={<Accounts />}
+                element={authState?.isAuth ? (
+                  <Accounts />
+                ) :
+                  (
+                    <Navigate to="/login" />
+                  )}
               />
 
 
-              <Route path="/doctor/my-patients" exact element={<MyPatient />} />
+              <Route path="/doctor/my-patients" exact element={authState?.isAuth ?
+                (
+                  <MyPatient />
+                ) : (
+                  <Navigate to="/login" />
+                )} />
               {/* <Route
                 path="/patient/change-password"
                 exact
@@ -257,41 +345,64 @@ const AppContainer = function () {
                 path="/doctor/doctor-dashboard"
                 exact
                 // element={<DoctorDashboard/>}
-                element={Auth.isAuth ? (
+                element={authState.isAuth ? (
                   <DoctorDashboard />
                 ) : (
                   <Navigate to="/login" />
                 )}
-
               />
               <Route exact path="/*" element={<Error404 />} />
 
               <Route
                 path="/doctor/social-media"
                 exact
-                element={<SocialMedia />}
+                element={authState?.isAuth ? (
+                  <SocialMedia />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
               <Route
                 path="/doctor/schedule-timing"
                 exact
-                element={<ScheduleTiming />}
+                element={authState?.isAuth ? (
+                  <ScheduleTiming />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
               <Route
                 path="/doctor/available-timing"
                 exact
-                element={<AvailableTiming />}
+                element={authState?.isAuth ? (
+                  <AvailableTiming />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
-              <Route path="/doctor/account" exact element={<Accounts />} />
+              <Route path="/doctor/account" exact element={
+                authState?.isAuth ?
+                  (
+                    <Accounts />
+                  ) : (
+                    <Navigate to="/login" />
+                  )} />
               <Route
                 path="/doctor/doctor-change-password"
                 exact
-                element={<DoctorPassword />}
+                element={authState?.isAuth ?
+                  (
+                    <DoctorPassword />
+                  ) :
+                  (
+                    <Navigate to="/login" />
+                  )}
               />
               <Route
                 path="/doctor/appointments"
                 exact
                 element={
-                  Auth.isAuth ? (
+                  authState.isAuth ? (
                     <Appointments />
                   ) : (
                     <Navigate to="/login" />
@@ -302,22 +413,43 @@ const AppContainer = function () {
               <Route
                 path="/doctor/patient-profile"
                 exact
-                element={<PatientProfile />}
+                element={authState?.isAuth ? (
+                  <PatientProfile />
+                ) : (
+                  <Navigate to="/login" />
+                )}
               />
               <Route
                 path="/add-prescription"
                 exact
-                element={<AddPescription />}
+                element={authState?.isAuth ?
+                  (
+                    <AddPescription />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
               />
               <Route path="/add-billing" exact element={<AddBilling />} />
               <Route
                 path="/doctor/profile-setting"
                 exact
-                element={<ProfileSetting />}
+                element={authState?.isAuth ? (
+                  <ProfileSetting />
+                ) : (
+                  <Navigate to="/login" />
+                )
+                }
               />
-              <Route path="/doctor/review" exact element={<Review />} />
+              <Route path="/doctor/review" exact element={authState?.isAuth ? (
+                <Review />
+              ) :
+                (
+                  <Navigate to="/login" />
+                )
+              } />
 
-              {Auth.isAuth ?
+              {authState.isAuth ?
                 <>
                   <Route path="/pages/terms" exact element={<Terms />} />
                   <Route path="/pages/privacy-policy" exact element={<Policy />} />

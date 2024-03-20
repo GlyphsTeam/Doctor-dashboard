@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import loginBanner from "../../assets/images/login-banner.png";
@@ -9,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../store/Auth/auth';
 import Alert from "../doctors/Alert/Alert";
 import { emailValidation } from '../../../helper/helper';
+import axios from 'axios';
 
 
 const LoginContainer = (props) => {
@@ -39,7 +41,7 @@ const LoginContainer = (props) => {
   const passwordRef = useRef(null);
 
 
-  const handlerLogin = (e) => {
+  const handlerLogin = async (e) => {
     e.preventDefault();
 
     const emailValue = emailRef.current.value;
@@ -55,9 +57,19 @@ const LoginContainer = (props) => {
       showAlertMessage("warning", "The Email field is requried");
     }
     if (emailValue && !emailValidation(emailValue) && passwordValue) {
-         dispatch(setAuth(true));
-         navigate("/doctor/doctor-dashboard")
-        //  history.push("/doctor/doctor-dashboard");
+      let formData = new FormData();
+      formData.append("email", emailValue);
+      formData.append("password", passwordValue);
+      formData.append("guard", "doctor");
+      
+      await axios.post(`${props.backendUrl}/login`, formData).then((res) => {
+        localStorage.setItem("access_token", res.data?.data?.token);
+        localStorage.setItem("name", res.data?.data?.name);
+        dispatch(setAuth(true));
+        navigate("/doctor/doctor-dashboard")
+      }).catch((err) => {
+        console.log(err);
+      });
     }
   }
   return (
@@ -112,7 +124,7 @@ const LoginContainer = (props) => {
                           </Link>
                         </div>
 
-                        <button 
+                        <button
                           className="btn btn-primary w-100 btn-lg login-btn"
                           type="submit"
                         >
@@ -152,12 +164,12 @@ const LoginContainer = (props) => {
 
       <Footer {...props} />
       <Alert
-       count={count}
-       message={message}
-       setCount={setCount}
-       setShow={setShowAlert}
-       show={showAlert}
-       type={type}
+        count={count}
+        message={message}
+        setCount={setCount}
+        setShow={setShowAlert}
+        show={showAlert}
+        type={type}
       />
     </>
   );

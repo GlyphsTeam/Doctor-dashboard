@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import loginBanner from "../../../assets/images/login-banner.png";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -9,12 +9,14 @@ import Alert from '../Alert/Alert';
 import {
   setName,
   setPassword,
-  setPhone
+  setPhone,
+  setEmail
 } from '../../../../store/Register/register';
 const DoctorRegister = (props) => {
   const name = useRef(null);
   const phoneNumber = useRef(null);
   const password = useRef(null);
+  const emailRef = useRef(null);
   const dispatch = useDispatch();
   const naviagtion = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
@@ -24,7 +26,7 @@ const DoctorRegister = (props) => {
 
 
 
-  
+
   useEffect(() => {
     document.getElementsByTagName("body")[0].className = "account-page";
 
@@ -43,6 +45,8 @@ const DoctorRegister = (props) => {
     const nameValue = name.current.value;
     const phoneValue = phoneNumber.current.value;
     const passwordValue = password.current.value;
+    const emailValue = emailRef.current.value;
+
 
     if (!passwordValue) {
       alertShowMessage("The password field is required", "warning");
@@ -50,17 +54,21 @@ const DoctorRegister = (props) => {
     if (!phoneValue) {
       alertShowMessage("The phone field is required", "warning");
     }
-
+    if (!emailValue) {
+      alertShowMessage("The Email field is required", "warning");
+    }
     if (!nameValue) {
       alertShowMessage("The name field is required", "warning");
     }
-    if (nameValue !== "" && phoneValue !== "" && passwordValue !== "") {
+    if (nameValue !== "" && phoneValue !== "" && passwordValue !== "" && emailValue !== "") {
 
       dispatch(setName(nameValue));
       dispatch(setPassword(passwordValue));
       dispatch(setPhone(phoneValue));
+      dispatch(setEmail(emailValue));
+
       naviagtion("/registerstepone");
-      
+
     }
 
 
@@ -93,6 +101,10 @@ const DoctorRegister = (props) => {
                       <div className="form-group form-focus">
                         <input type="text" className="form-control floating" ref={name} />
                         <label className="focus-label">Name</label>
+                      </div>
+                      <div className="form-group form-focus">
+                        <input type="email" className="form-control floating" ref={emailRef} />
+                        <label className="focus-label">Email</label>
                       </div>
                       <div className="form-group form-focus">
                         <input type="text" className="form-control floating" ref={phoneNumber} />

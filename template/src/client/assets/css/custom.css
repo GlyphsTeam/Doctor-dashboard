@@ -13,7 +13,41 @@
   flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
 }
-
+.dropdownMenu{
+  position:absolute;
+  left: -131px;
+}
+.add-blog{
+  border: none;
+  background-color:var(--secondary4-color);
+  color: var(--white);
+  padding: 10px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  margin-bottom: 20px;
+}
+.imgCertifcate{
+  height: 100px !important;
+    width: 100px !important;
+}
+.closeBtn,.removeImage{
+  cursor: pointer;
+  color: var(--danger-color);
+}
+.selectSpcialContanier{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+.imagesContainer{
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px ,1fr));
+}
 .css-equal-content {
   color: red;
   float: left;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useCallback } from "react";
 // import loginBanner from "../../../assets/images/login-banner.png";
 import Logo from "../../../assets/images/logo.png";
 import camera from "../../../assets/images/icons/camera.svg";
@@ -7,7 +8,8 @@ import female from "../../../assets/images/icons/female.png";
 import Alert from "../Alert/Alert";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { IoMdClose } from "react-icons/io";
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCardNumber,
@@ -16,15 +18,31 @@ import {
   setDoctorID,
   setGender,
   setNationality,
-  setSpecialities
-
+  setSpecialities,
+  setUploadImg,
+  setImage,
+  setPassword,
+  setEmail,
+  setPhone,
+  setName
 
 } from '../../../../store/Register/register';
-const Registersteptwo = () => {
+import axios from 'axios';
+import { setAuth } from '../../../../store/Auth/auth'
+
+const Registersteptwo = ({ backendUrl }) => {
   const dispatch = useDispatch();
   const registerState = useSelector((state) => state.register);
-  const navigation = useNavigate();
+  const navgation = useNavigate();
+  const [allSpeciales, setAllSpeciales] = useState(null);
 
+  const getSpecialeies = async () => {
+    await axios.get(`${backendUrl}/specialties`).then((res) => {
+      setAllSpeciales(res.data.data);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
 
   useEffect(() => {
     document.body.classList.add("account-page");
@@ -37,15 +55,24 @@ const Registersteptwo = () => {
   const [message, setMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [type, setType] = useState("");
-
+  const [selectSpeical, setSelectSpeical] = useState([]);
+  const [images, setImages] = useState([]);
   const showAlertMessage = (message, type) => {
     setCount(1);
     setMessage(message);
     setShowAlert(true);
     setType(type);
   };
+  useEffect(() => {
+    getSpecialeies();
+  }, []);
 
-  const handlerRegister = (e) => {
+  const handlerRemoveImage = (id) => {
+    setImages(prev => {
+      return prev.filter((image) => image?.id !== id);
+    })
+  }
+  const handlerRegister = async (e) => {
 
     e.preventDefault();
 
@@ -55,11 +82,11 @@ const Registersteptwo = () => {
     const dateValue = e.target.date.value;
     const specialitiesValue = e.target.specialities.value;
     const idnumber = e.target.idnumber.value;
-    const nationalityValue = e.target.nationality;
-    const cardNumberValue = e.target.cardnumber;
+    const nationalityValue = e.target.nationality.value;
+    const cardNumberValue = e.target.cardnumber.value;
 
     if (!specialitiesValue) {
-      showAlertMessage("The Specialities fuekd us required.", "warning");
+      showAlertMessage("The Specialities field us required.", "warning");
     }
     if (!dateValue) {
       showAlertMessage("The Age field is required.", "warning");
@@ -87,16 +114,81 @@ const Registersteptwo = () => {
       && cardNumberValue !== ""
     ) {
       dispatch(setGender(genderValue));
-      dispatch(setDate(dateValue)); 
-      dispatch(setNationality(nationalityValue));
-      dispatch(setSpecialities(specialitiesValue));
-      dispatch(setCardNumber(cardNumberValue));
-      dispatch(setDoctorID(idnumber));
+      dispatch(setDate(dateValue));
+      let formData = new FormData();
+      const token = localStorage.getItem("access_token");
+      formData.append("name", registerState.name);
+      formData.append("password", registerState.password);
+      formData.append("phone_number", registerState.phone);
+      formData.append("image", registerState.img);
+      formData.append("gender", genderValue);
+      formData.append("address", registerState.address);
+      formData.append("certifcate", registerState.certifcate);
+      formData.append("uploadImg", registerState.uploadImg);
+      formData.append("date", registerState.date);
+      formData.append("cardNumber", cardNumberValue);
+      formData.append("nationality", nationalityValue);
+      formData.append("id_number", idnumber);
+      selectSpeical && selectSpeical.forEach((item, index) => {
+        formData.append(`specialization[${index}]`, item?.id);
+      })
+      formData.append("guard", "doctor");
+      formData.append("email", registerState?.email);
 
+      await axios.post(`${backendUrl}/register`, formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      }).then((res) => {
+        dispatch(setDoctorID(""));
+        dispatch(setCardNumber(""));
+        dispatch(setNationality(""));
+        dispatch(setSpecialities(""));
+        dispatch(setPassword(""));
+        dispatch(setPhone(""));
+        dispatch(setUploadImg(null));
+        dispatch(setGender(""));
+        dispatch(setImage(null));
+        dispatch(setName(""));
+        dispatch(setCertfcation(null));
+        dispatch(setEmail(""));
 
-      navigation("/register-step- 3");
+        navgation("/doctor/doctor-dashboard");
+        localStorage.setItem("access_token", res.data?.data?.token);
+        localStorage.setItem("name", res.data?.data?.name);
+        dispatch(setAuth(true));
+        
+      }).catch((err) => {
+        console.log(err)
+        console.log(err?.status_number)
+      })
+
     }
   }
+
+  const handleImageDrop = useCallback((acceptedFiles) => {
+    if (images.length + acceptedFiles?.length > 6) {
+      showAlertMessage("You can upload only 6 images.", "warning");
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    } else {
+      const isImage = acceptedFiles?.every(file => file.type.startsWith('image/'));
+      if (isImage) {
+        const imagesWithIds = acceptedFiles.map(file => ({ id: uuidv4(), file }));
+        setImages(prevImages => [...prevImages, ...imagesWithIds]);
+      } else {
+        showAlertMessage("Please upload only images.", "warning");
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+      }
+    }
+  }, [images]);
+  console.log("images>>>", images)
+
   const handlerUpload = (e) => {
     const image = e.target.files[0];
     console.log(image)
@@ -109,6 +201,20 @@ const Registersteptwo = () => {
       dispatch(setCertfcation(image))
     }
   }
+  const handlerSpesial = (value) => {
+    const specialte = allSpeciales?.find(item => item.id === parseInt(value));
+    setSelectSpeical([...selectSpeical, {
+      name: specialte?.name,
+      id: value
+    }]);
+  }
+  const handlerRemoveSpecial = (id) => {
+    setSelectSpeical(prev => {
+      return prev.filter(item => item.id !== id);
+    });
+
+  }
+
   return (
     <>
       {/* Page Content */}
@@ -152,7 +258,7 @@ const Registersteptwo = () => {
                               id="test1"
                               name="gender"
                               defaultChecked=""
-                              defaultValue="Male"
+                              defaultValue="male"
                             />
                             <label htmlFor="test1">
                               <span className="gender-icon">
@@ -166,7 +272,7 @@ const Registersteptwo = () => {
                               type="radio"
                               id="test2"
                               name="gender"
-                              defaultValue="Female"
+                              defaultValue="female"
                             />
                             <label htmlFor="test2">
                               <span className="gender-icon">
@@ -260,11 +366,21 @@ const Registersteptwo = () => {
                                 <input
                                   type="file"
                                   id="quali_certificate"
-                                  onChange={(e) => handlerUpload(e)}
+                                  onChange={(e) => handleImageDrop(Array.from(e.target.files))}
                                   name="quali_certificate"
+                                  multiple
                                 />
                               </div>
                             </div>
+                            <div className="imagesContainer">
+                              {images.map((item) => {
+                                return <div key={item?.id} className="selectSpcialContanier m-10" >
+                                  <img loading="lazy" src={window.URL.createObjectURL(item?.file)} key={item?.id} className="imgCertifcate" />
+                                  <IoMdClose className="removeImage" onClick={() => handlerRemoveImage(item?.id)} />
+                                </div>
+                              })}
+                            </div>
+
                             <div className="col-12 col-md-6 d-flex">
                               <div className="profile-pic-upload d-flex flex-wrap justify-content-center">
                                 <div className="cam-col">
@@ -314,14 +430,22 @@ const Registersteptwo = () => {
                             name="specialities"
                             tabIndex={-1}
                             aria-hidden="true"
+                            onChange={(e) => handlerSpesial(e.target.value)}
                           >
                             <option value="">Select your blood group</option>
-                            <option value="A-">Urology</option>
-                            <option value="A+">Neurology</option>
-                            <option value="B-">Orthopedic</option>
-                            <option value="B+">Cardiologist</option>
-                            <option value="AB-">Dentist</option>
+
+                            {allSpeciales && allSpeciales?.map((item) => {
+                              return <option value={item?.id} key={item?.id}>{item?.name}</option>
+
+                            })}
+
                           </select>
+                          {selectSpeical && selectSpeical.map((item) => {
+                            return <div className="selectSpcialContanier" key={item?.id}>
+                              <li >{item?.name}</li>
+                              <IoMdClose onClick={() => handlerRemoveSpecial(item?.id)} className="closeBtn" />
+                            </div>
+                          })}
                         </div>
                       </div>
                       <div className="mt-5">

@@ -5,6 +5,7 @@ const initialState = {
     name: "",
     password: "",
     phone: "",
+    email:"",
     img: null,
     gender: "",
     address: "",
@@ -42,7 +43,9 @@ const registerSlice = createSlice({
         setAddrees: (state, actions) => {
             state.address = actions.payload
         },
-
+        setEmail:(state, actions)=>{
+          state.email = actions.payload;
+        },
         setCertfcation: (state, actions) => {
             state.certifcate = actions.payload
         },
@@ -91,7 +94,8 @@ export const {
     setDate,
     setDoctorID,
     setNationality,
-    setSpecialities
+    setSpecialities,
+    setEmail
 } = registerSlice.actions;
 
 export default registerSlice.reducer;

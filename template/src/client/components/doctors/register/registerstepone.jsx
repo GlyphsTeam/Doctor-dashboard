@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 
 const Registerstepone = () => {
   const dispatch = useDispatch();
+  const navgation = useNavigate();
   const imageUrl = useSelector((state) => state.register);
-  const navigation = useNavigate();
   const [count, setCount] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [type, setType] = useState("");
@@ -38,7 +38,9 @@ const Registerstepone = () => {
       dispatch(setImage(image));
     }
   }
-  const hanlderNextRegister = () => {
+  const hanlderNextRegister = (e) => {
+    e.preventDefault();
+
     if (!imageUrl.img.type.startsWith('image/')) {
       setCount(1);
       setShowAlert(true);
@@ -47,7 +49,7 @@ const Registerstepone = () => {
     }
 
     else {
-      navigation("/register-step-2");
+      navgation("/register-step-2");
     }
   }
   return (
@@ -79,7 +81,7 @@ const Registerstepone = () => {
                         </li>
                       </ul>
                     </div>
-                    <form id="profile_pic_form" >
+                    <form onSubmit={hanlderNextRegister} >
                       <div className="profile-pic-col">
                         <h3>Profile Picture</h3>
                         <div className="profile-pic-upload">
@@ -103,7 +105,6 @@ const Registerstepone = () => {
 
                       <div className="mt-5">
                         <button
-                          onClick={() => hanlderNextRegister()}
                           className="btn btn-primary w-100 btn-lg login-btn step1_submit"
                         >
                           continue{" "}
